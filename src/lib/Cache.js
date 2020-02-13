@@ -1,14 +1,13 @@
 import Redis from 'ioredis';
 
 class Cache {
-  constructor(){
+  constructor() {
     this.redis = new Redis({
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    keyPrefix: 'cache:',
-  });
-
-  } 
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT,
+      keyPrefix: 'cache:',
+    });
+  }
 
   set(key, value) {
     return this.redis.set(key, JSON.stringify(value), 'EX', 60 * 60 * 24);
@@ -17,7 +16,7 @@ class Cache {
   async get(key) {
     const cached = await this.redis.get(key);
 
-    return cached ? JSON.parse(cache) : null;
+    return cached ? JSON.parse(cached) : null;
   }
 
   invalidate(key) {
